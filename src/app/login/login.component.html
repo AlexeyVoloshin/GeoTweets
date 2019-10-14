@@ -1,0 +1,10 @@
+<p>login works!</p>
+<div>
+  <label>Login:
+    <input #Login />
+  </label><br>
+  <label>Password
+    <input #Password>
+  </label>
+  <button (click)="login(Login.value, Password.value); Login.value = ''; Password.value = '';">Enter</button>
+</div>
