@@ -18,6 +18,7 @@ import { LoginModule } from './login/login.module';
     AppRoutingModule,
     AdminModule,
     LoginModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
