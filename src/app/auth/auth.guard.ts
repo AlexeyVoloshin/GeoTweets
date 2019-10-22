@@ -8,22 +8,32 @@ import {
   UrlTree,
   Router
 } from '@angular/router';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
+import {AuthService} from './auth.service';
+import {error} from 'util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanLoad {
-  constructor(private router: Router) {
+  constructor(private router: Router, private authService: AuthService) {
   }
-  canLoad(route: Route): boolean {
-    const url: string = route.path;
-    console.log('Url:' + url);
-    if (url === 'admin') {
-      console.log('You are not authorised to visit this page');
-      return false;
+  canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
+    try {
+      const currentUser =   this.authService.currentUserValue;
+      const url: string = route.path;
+      console.log('Url:' + url);
+      if (url === 'admin') {
+          if (!currentUser) {
+           console.log('You are not authorised to visit this page');
+           return  false; // this.authService.isAuth();
+        }
+      }
+      return true;
+      // this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
+    } catch (error) {
+      throw error;
     }
-    return true;
   }
 }
 

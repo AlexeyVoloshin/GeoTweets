@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { User} from '../model/user';
+import {AuthService} from '../auth/auth.service';
+import {ActivatedRoute, Route, Router} from "@angular/router";
+import {first} from "rxjs/operators";
 
 @Component({
   selector: 'app-login',
@@ -10,12 +13,32 @@ export class LoginComponent implements OnInit {
   users: User[] = [
     {_id: '1', name : 'Alexey', password : '123456'}
   ];
-  constructor() { }
+  returnUrl: string;
+  error = '';
 
-  ngOnInit() {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {
+    if (this.authService.currentUserValue) {
+      this.router.navigate(['/']);
+    }
   }
 
-  login(login: string, pass: string) {
-        //if (login === this.users ){}
+  ngOnInit() {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
+
+  onSubmit(login: User, pass: string) {
+       this.authService.login(login, pass)
+         .pipe(first())
+         .subscribe(
+           data => {
+             this.router.navigate([this.returnUrl]);
+           },
+           error => {
+             this.error = error;
+           });
   }
 }

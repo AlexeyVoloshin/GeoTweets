@@ -15,10 +15,14 @@ export class UserService {
   ) { }
 
   getUsers() {
-    return this._http.get(this.userUrl, this.users);
+    return this._http.get(`${this.userUrl}/users`, this.users);
   }
-  addUser(user: User): Observable<User> {
-    const url = this.userUrl;
-    return this._http.post(url, user);
+  addUser(username: User): Observable<User> {
+    const url = `${this.userUrl}/users`;
+    return this._http.post(url, username);
+  }
+  login(username: User, password: string): Observable<User> {
+    const url = `${this.userUrl}/auth/login`;
+    return this._http.post(url, {username, password});
   }
 }
