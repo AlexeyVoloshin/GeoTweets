@@ -7,6 +7,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpClientModule} from '@angular/common/http';
 import { AdminModule } from './admin/admin.module';
 import { LoginModule } from './login/login.module';
+import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { LoginModule } from './login/login.module';
     LoginModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
