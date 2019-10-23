@@ -1,10 +1,16 @@
 <h1>{{title}}</h1>
-<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
+<!--<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">-->
+
+  <nav class="nav grey lighten-4 py-4">
   <div class="navbar-nav">
-    <a routerLink="/dashboard">Dashboard</a>
-    <a routerLink="/login">Login</a>
-    <a class="nav-item nav-link" (click)="logout()">Logout</a>
+    <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+    ||
+    <a class="nav-link" routerLink="/login">Login</a>
   </div>
+    <div *ngIf="currentUser">
+      ||
+      <a class="nav-link" class="nav-item nav-link" (click)="logout()">Logout</a>
+    </div>
 </nav>
 
 <div class="container">

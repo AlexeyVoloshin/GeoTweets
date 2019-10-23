@@ -18,10 +18,11 @@ import {error} from 'util';
 export class AuthGuard implements CanLoad {
   constructor(private router: Router, private authService: AuthService) {
   }
-  canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
+   canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
     try {
-      const currentUser =   this.authService.currentUserValue;
+      let currentUser = this.authService.currentUserValue;
       const url: string = route.path;
+      console.log('currentUser_Guard:' + currentUser);
       console.log('Url:' + url);
       if (url === 'admin') {
           if (!currentUser) {

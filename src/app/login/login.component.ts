@@ -10,9 +10,9 @@ import {first} from "rxjs/operators";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  users: User[] = [
-    {_id: '1', name : 'Alexey', password : '123456'}
-  ];
+  // users: User[] = [
+  //   {_id: '1', name : 'Alexey', password : '123456'}
+  // ];
   returnUrl: string;
   error = '';
 
@@ -30,8 +30,8 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  onSubmit(login: User, pass: string) {
-       this.authService.login(login, pass)
+  onSubmit(username: User, password: string) {
+       this.authService.login(username, password)
          .pipe(first())
          .subscribe(
            data => {

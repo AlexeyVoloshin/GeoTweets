@@ -13,7 +13,7 @@ export class CreateAccountComponent implements OnInit {
   checkoutForm;
   constructor(private userService: UserService, private formBuilder: FormBuilder, ) {
     this.checkoutForm = this.formBuilder.group({
-      name: '',
+      username: '',
       password: ''
     });
   }
@@ -22,15 +22,15 @@ export class CreateAccountComponent implements OnInit {
   }
 
   addUser(data) {
-    let name;
-    name = data.name.trim();
+    let username;
+    username = data.username.trim();
     let password;
     password = data.password.trim();
-    if (!data.name) {
+    if (!data.username) {
       return;
     }
-    console.log('data', name, password);
-    this.userService.addUser({name, password} as User)
+    console.log('data', username, password);
+    this.userService.addUser({username, password} as User)
       .subscribe(user => {
       if (user) {
         this.users.push(user);
