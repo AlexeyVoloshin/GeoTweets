@@ -33,4 +33,7 @@ export class ApiService {
       headers
     });
   }
+  setHeaders() {
+
+  }
 }

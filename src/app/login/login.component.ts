@@ -17,9 +17,10 @@ export class LoginComponent implements OnInit {
   error = '';
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
     private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService,
+
   ) {
     if (this.authService.currentUserValue) {
       this.router.navigate(['/']);

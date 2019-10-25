@@ -17,10 +17,7 @@ export class AppComponent {
     private router: Router,
     private authService: AuthService
   ) {
-    debugger
-    console.log('currentUser', this.authService.currentUser)
     this.authService.currentUser.subscribe(user => this.currentUser = user);
-
   }
   logout() {
     this.authService.logout();

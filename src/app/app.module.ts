@@ -10,7 +10,7 @@ import { AdminModule } from './admin/admin.module';
 
 import { LoginModule } from './login/login.module';
 import { AuthGuard } from './auth/auth.guard';
-import { CheckUserIfAdmin } from './helpers/check-user-if-admin';
+import { AuthInterceptor } from './helpers/auth.interceptor';
 import {ErrorInterceptor} from './helpers/error.interceptor';
 
 @NgModule({
@@ -26,9 +26,9 @@ import {ErrorInterceptor} from './helpers/error.interceptor';
     HttpClientModule,
   ],
   providers: [
-    AuthGuard,
-    { provide: HTTP_INTERCEPTORS, useClass: CheckUserIfAdmin, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    AuthGuard,
   ],
   bootstrap: [AppComponent]
 })
