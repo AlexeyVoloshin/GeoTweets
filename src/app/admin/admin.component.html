@@ -1,1 +1,18 @@
-<p>admin works!</p>
+<div class="container">
+  <h1>Google Maps</h1>
+  <div class="form group">
+    <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
+    <input type="text" [(ngModel)]="latitude">
+    <input type="text" [(ngModel)]="longitude">
+  </div>
+  <div class="container-for-map">
+    <agm-map [latitude]="latitude" [longitude]="longitude"  (mapClick)="onChoseLocation($event)">
+      <agm-marker
+        [latitude]="latitude"
+        [longitude]="longitude"
+        *ngIf="locationChosen"
+      >
+      </agm-marker>
+    </agm-map>
+  </div>
+</div>

@@ -17,9 +17,8 @@ export class AuthGuard implements CanLoad, CanActivate {
   canLoad(route: Route): Promise<boolean> | boolean {
     try {
       const url: string = route.path;
-      const currentUser = this.authService.currentUserValue;
       if (url === 'admin') {
-        if (currentUser !== null) {
+        if (this.authService.currentUserValue !== null) {
           return new Promise<boolean>((resolve, reject) => {
             this.authService.getCurrentUser().subscribe({
               next: (data) => {
