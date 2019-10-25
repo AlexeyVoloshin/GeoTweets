@@ -11,7 +11,6 @@ export class AuthService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
   public user: User;
-  // @Input() user: User;
   constructor(private http: UserService) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
@@ -19,11 +18,6 @@ export class AuthService {
 
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
-  }
-
-  getToken(): User {
-    const token = JSON.parse(localStorage.getItem('currentUser'));
-    return token == null ? [] : token.user;
   }
 
   login(username: User, password: string) {
@@ -39,16 +33,16 @@ export class AuthService {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }
- async isLoggedIn(): Promise<any> {
+ async isAdminIn() {
   const result = await this.http.getProfileUsers()
       .subscribe(user => {
         let isAdmin = false;
-        if (user.admin) {
+        if (user['admin'] === true) {
           console.log('user', user);
           isAdmin = true;
         }
         return isAdmin;
       });
   return result;
-  } // method checked authorization
+  }
 }
