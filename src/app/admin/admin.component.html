@@ -2,17 +2,41 @@
   <h1>Google Maps</h1>
   <div class="form group">
     <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
-    <input type="text" [(ngModel)]="latitude">
-    <input type="text" [(ngModel)]="longitude">
+    <input type="text" [(ngModel)]="lat">
+    <input type="text" [(ngModel)]="lng">
+    <input type="text" [(ngModel)]="radius">
   </div>
   <div class="container-for-map">
-    <agm-map [latitude]="latitude" [longitude]="longitude"  (mapClick)="onChoseLocation($event)">
+    <agm-map
+      [latitude]="lat"
+      [longitude]="lng"
+      [zoom]="zoom"
+      [disableDefaultUI]="false"
+      [zoomControl]="false"
+      (mapClick)="mapClicked($event)">
+
       <agm-marker
-        [latitude]="latitude"
-        [longitude]="longitude"
-        *ngIf="locationChosen"
-      >
+        *ngFor="let m of markers; let i = index"
+        (markerClick)="clickedMarker(m.label, i)"
+        [latitude]="m.lat"
+        [longitude]="m.lng"
+        [label]="m.label"
+        [markerDraggable]="m.draggable"
+        (dragEnd)="markerDragEnd(m, $event)">
+        <agm-info-window>
+          <strong>InfoWindow content</strong>
+        </agm-info-window>
+
       </agm-marker>
+
+      <agm-circle [latitude]="lat + 0.3" [longitude]="lng"
+                  [radius]="radius"
+                  [fillColor]="'red'"
+                  [circleDraggable]="true"
+                  [editable]="true"
+                  (radiusChange)="radiusChange($event)">
+      </agm-circle>
+
     </agm-map>
   </div>
 </div>

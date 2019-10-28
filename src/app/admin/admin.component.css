@@ -5,3 +5,11 @@ agm-map {
 .container-for-map {
 
 }
+
+* {
+  font-family: Lato;
+}
+
+a {
+  color: darkblue;
+}
