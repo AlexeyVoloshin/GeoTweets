@@ -26,16 +26,18 @@
         <agm-info-window>
           <strong>InfoWindow content</strong>
         </agm-info-window>
+        <agm-circle [latitude]="m.lat" [longitude]="m.lng"
+                    (centerChange)="centerChange(m, $event)"
+                    [radius]="m.radius"
+                    [fillColor]="'red'"
+                    [circleDraggable]="false"
+                    [editable]="true"
+                    (radiusChange)="radiusChange($event)">
+        </agm-circle>
 
       </agm-marker>
 
-      <agm-circle [latitude]="lat + 0.3" [longitude]="lng"
-                  [radius]="radius"
-                  [fillColor]="'red'"
-                  [circleDraggable]="true"
-                  [editable]="true"
-                  (radiusChange)="radiusChange($event)">
-      </agm-circle>
+
 
     </agm-map>
   </div>

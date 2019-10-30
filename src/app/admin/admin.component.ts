@@ -1,6 +1,7 @@
 import {Component, EventEmitter, NgZone, OnInit} from '@angular/core';
 import {MapsAPILoader} from '@agm/core';
 import {FormControl} from '@angular/forms';
+
 // tslint:disable-next-line:class-name
 interface marker {
   lat: number;
@@ -8,6 +9,7 @@ interface marker {
   label?: string;
   draggable: boolean;
 }
+
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -21,8 +23,9 @@ export class AdminComponent implements OnInit {
   lng: number = 7.815982;
   radius: number = 5000;
 
-    ngOnInit() {
-    }
+  ngOnInit() {
+  }
+
   clickedMarker(label: string, index: number) {
     console.log(`clicked the marker: ${label || index}`);
   }
@@ -31,13 +34,25 @@ export class AdminComponent implements OnInit {
     this.markers.push({
       lat: event.coords.lat,
       lng: event.coords.lng,
-      draggable: true
+      draggable: true,
+      radius: this.radius,
+      circleDraggable: false,
     });
   }
 
   markerDragEnd(m: marker, event) {
-     this.lat = event.coords.lat;
-     this.lng = event.coords.lng;
+    this.lat = event.coords.lat;
+    this.lng = event.coords.lng;
+
+    this.markers = this.markers.filter(item => item !== m);
+
+    this.markers.push({
+      lat: event.coords.lat,
+      lng: event.coords.lng,
+      draggable: true,
+      radius: this.radius,
+      circleDraggable: false
+    });
     console.log('dragEnd', m, event);
   }
 
@@ -45,26 +60,30 @@ export class AdminComponent implements OnInit {
     {
       lat: 51.673858,
       lng: 7.815982,
+      radius: 5000,
       label: 'A',
-      draggable: true
+      draggable: true,
+      circleDraggable: false
     },
     {
       lat: 51.373858,
       lng: 7.215982,
+      radius: 5000,
       label: 'B',
-      draggable: false
+      draggable: true,
+      circleDraggable: false
     },
-    {
-      lat: 51.723858,
-      lng: 7.895982,
-      label: 'C',
-      draggable: true
-    }
-  ]
+  ];
 
   radiusChange(event) {
-      this.radius = event;
+    this.radius = event;
+
     console.log('RadiusX', event);
+  }
+
+  centerChange(m: marker, $event) {
+
+    console.log('eventCenterChange', $event);
   }
 }
 
@@ -72,6 +91,8 @@ export class AdminComponent implements OnInit {
 interface marker {
   lat: number;
   lng: number;
+  radius: number;
   label?: string;
   draggable: boolean;
+  circleDraggable: boolean;
 }
