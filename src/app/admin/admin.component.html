@@ -1,10 +1,10 @@
 <div class="container">
   <h1>Google Maps</h1>
   <div class="form group">
-    <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
-    <input type="text" [(ngModel)]="lat">
-    <input type="text" [(ngModel)]="lng">
-    <input type="text" [(ngModel)]="radius">
+    <input #Lat type="text" [(ngModel)]="lat" class="form-control">
+    <input #Lng type="text" [(ngModel)]="lng" class="form-control">
+    <input #Radius type="text" [(ngModel)]="radius" class="form-control">
+    <input #Keyword placeholder="enter keyword" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" >
   </div>
   <div class="container-for-map">
     <agm-map
@@ -14,7 +14,6 @@
       [disableDefaultUI]="false"
       [zoomControl]="false"
       (mapClick)="mapClicked($event)">
-
       <agm-marker
         *ngFor="let m of markers; let i = index"
         (markerClick)="clickedMarker(m.label, i)"
@@ -34,11 +33,8 @@
                     [editable]="true"
                     (radiusChange)="radiusChange($event)">
         </agm-circle>
-
       </agm-marker>
-
-
-
     </agm-map>
+    <button (click)="onSubmit(Lat.value, Lng.value, Radius.value, Keyword.value)">Save</button>
   </div>
 </div>
