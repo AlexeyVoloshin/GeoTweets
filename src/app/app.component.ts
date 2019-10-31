@@ -11,7 +11,7 @@ import { AuthService } from './auth/auth.service';
 export class AppComponent {
 
   currentUser: User;
-  title = 'geo-tweets';
+  title = 'GeoTweets';
 
   constructor(
     private router: Router,

@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit {
     this.tweetService.getTweets()
       .subscribe(data => {
         this.tweets = data.slice(1, 10);
-       // return this.tweets;
+        return this.tweets;
       });
   }
   ngOnInit() {

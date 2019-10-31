@@ -19,13 +19,13 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  login(username: User, password: string) {
-    return this.http.login(username, password)
-      .pipe(map(user => {
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        this.currentUserSubject.next(user);
-        console.log('login', user);
-        return user;
+  login(user: User): Observable<User> {
+    return this.http.login(user)
+      .pipe(map(data => {
+        localStorage.setItem('currentUser', JSON.stringify(data));
+        this.currentUserSubject.next(data);
+        console.log('login', data);
+        return data;
       }));
   }
   logout() {

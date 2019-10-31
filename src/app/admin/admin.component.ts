@@ -4,14 +4,15 @@ import {FormControl} from '@angular/forms';
 import {TweetService} from '../services/tweet.service';
 import { Tweet} from '../model/tweet';
 import {Geo} from '../model/geo';
+import {Observable} from "rxjs";
 
 // tslint:disable-next-line:class-name
-interface marker {
-  lat: number;
-  lng: number;
-  label?: string;
-  draggable: boolean;
-}
+// interface marker {
+//   lat: number;
+//   lng: number;
+//   label?: string;
+//   draggable: boolean;
+// }
 
 @Component({
   selector: 'app-admin',
@@ -25,7 +26,7 @@ export class AdminComponent implements OnInit {
   lat: number = 51.673858;
   lng: number = 7.815982;
   radius: number = 5000;
-
+  tweets: Array<Tweet> = [];
   constructor(private tweetService: TweetService) {
   }
 
@@ -92,17 +93,31 @@ export class AdminComponent implements OnInit {
     console.log('eventCenterChange', $event);
   }
 
-  onSubmit(lat: string, lng: string, rad: string, search?: string) {
+ async onSubmit(lat, lng, rad, search?): Promise<void> {
     lat = lat.trim();
     lng = lng.trim();
     rad = rad.trim();
     search = search.trim();
-    console.log('object', {lat, lng, rad, search})
-    this.tweetService.sendGeo({lat, lng, rad, search});
+   // console.log('object', {lat, lng, rad, search});
+    await this.tweetService.sendGeo({lat, lng, rad, search} as Geo);
+    // this.tweetService.saveTweets({lat, lng, rad, search} as Geo);
+    this.getTweets();
+  }
+  getTweets(): void {
+    this.tweetService.getTweets()
+      .subscribe(data => {
+        this.tweets = data.slice(1, 10);
+        return this.tweets;
+      });
+  }
+
+  onClear() {
+    this.tweets = null;
   }
 }
 
 // just an interface for type safety.
+// tslint:disable-next-line:class-name
 interface marker {
   lat: number;
   lng: number;

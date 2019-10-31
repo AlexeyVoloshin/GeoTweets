@@ -35,6 +35,16 @@
         </agm-circle>
       </agm-marker>
     </agm-map>
-    <button (click)="onSubmit(Lat.value, Lng.value, Radius.value, Keyword.value)">Save</button>
+    <button type="button" class="btn btn-success" (click)="onSubmit(Lat.value, Lng.value, Radius.value, Keyword.value)">Save</button>
+    <button type="button" class="btn btn-danger" (click)="onClear()">Clear</button>
+  </div>
+  <h3>Tweets</h3>
+  <div class="card" *ngIf="tweets !== undefined">
+    <ng-container *ngFor="let tweet of tweets">
+      <h4>{{tweet.name}}</h4>
+      <img src="{{tweet.image}}" alt="" style="max-width: 50px">
+      <h6>Text: {{tweet.text}}</h6>
+      <h6>Location: {{tweet.location}}</h6>
+    </ng-container>
   </div>
 </div>

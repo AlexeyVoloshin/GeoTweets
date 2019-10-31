@@ -22,9 +22,9 @@ export class UserService {
     const url = `${this.userUrl}/users`;
     return this._http.post(url, username);
   }
-  login(username: User, password: string): Observable<User> {
+  login(username: User): Observable<User> {
     const url = `${this.userUrl}/auth/login`;
-    return this._http.post(url, {username, password});
+    return this._http.post(url, username);
   }
   getProfileUsers() {
     return this._http.get(`${this.userUrl}/profile`, this.users);

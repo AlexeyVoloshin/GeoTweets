@@ -1,11 +1,12 @@
-<p>login works!</p>
+<form>
+  <div class="form-group">
 <div class="container-for-map">
-  <label>Login:
-    <input #Login />
-  </label><br>
-  <label>Password:
-    <input #Password>
-  </label><br>
-  <button (click)="onSubmit(Login.value, Password.value); Login.value = ''; Password.value = '';">Enter</button>
+  <label>Login:</label>
+    <input #Login placeholder="Enter login" class="form-control">
+  <label>Password:</label>
+    <input #Password placeholder="Enter password" class="form-control" type="password">
+  <button type="submit" class="btn btn-primary" (click)="onSubmit(Login.value, Password.value); Login.value = ''; Password.value = ''">Enter</button>
   <a routerLink="/create-account">Create Account</a>
 </div>
+  </div>
+</form>
