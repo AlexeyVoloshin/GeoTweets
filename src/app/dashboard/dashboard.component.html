@@ -1,1 +1,9 @@
-<p>dashboard works!</p>
+<h3>Tweets</h3>
+<div class="card">
+  <ng-container *ngFor="let tweet of tweets">
+    <h4>{{tweet.name}}</h4>
+    <img src="{{tweet.image}}" alt="" style="max-width: 50px">
+    <h6>Text: {{tweet.text}}</h6>
+    <h6>Location: {{tweet.location}}</h6>
+  </ng-container>
+</div>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Tweet } from '../model/tweet';
+import {TweetService} from '../services/tweet.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,10 +8,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
+  tweets: Array<Tweet> = [];
+  constructor(private tweetService: TweetService) { }
+  getTweets(): void {
+    this.tweetService.getTweets()
+      .subscribe(data => {
+        this.tweets = data.slice(1, 10);
+        return this.tweets;
+      });
   }
+  ngOnInit() {
+    this.getTweets();
+  }
+
 
 }

@@ -1,4 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, NgZone, OnInit} from '@angular/core';
+import {MapsAPILoader} from '@agm/core';
+import {FormControl} from '@angular/forms';
+import {TweetService} from '../services/tweet.service';
+import { Tweet} from '../model/tweet';
+import {Geo} from '../model/geo';
+import {Observable} from "rxjs";
+
+// tslint:disable-next-line:class-name
+// interface marker {
+//   lat: number;
+//   lng: number;
+//   label?: string;
+//   draggable: boolean;
+// }
 
 @Component({
   selector: 'app-admin',
@@ -6,10 +20,109 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
+  zoom: number = 8;
 
-  constructor() { }
+  // initial center position for the map
+  lat: number = 51.673858;
+  lng: number = 7.815982;
+  radius: number = 5000;
+  tweets: Array<Tweet> = [];
+  constructor(private tweetService: TweetService) {
+  }
 
   ngOnInit() {
   }
 
+  clickedMarker(label: string, index: number) {
+    console.log(`clicked the marker: ${label || index}`);
+  }
+
+  mapClicked(event) {
+    this.markers.push({
+      lat: event.coords.lat,
+      lng: event.coords.lng,
+      draggable: true,
+      radius: this.radius,
+      circleDraggable: false,
+    });
+  }
+
+  markerDragEnd(m: marker, event) {
+    this.lat = event.coords.lat;
+    this.lng = event.coords.lng;
+
+    this.markers = this.markers.filter(item => item !== m);
+
+    this.markers.push({
+      lat: event.coords.lat,
+      lng: event.coords.lng,
+      draggable: true,
+      radius: this.radius,
+      circleDraggable: false
+    });
+    console.log('dragEnd', m, event);
+  }
+
+  markers: marker[] = [
+    {
+      lat: 51.673858,
+      lng: 7.815982,
+      radius: 5000,
+      label: 'A',
+      draggable: true,
+      circleDraggable: false
+    },
+    {
+      lat: 51.373858,
+      lng: 7.215982,
+      radius: 5000,
+      label: 'B',
+      draggable: true,
+      circleDraggable: false
+    },
+  ];
+
+  radiusChange(event) {
+    this.radius = event;
+
+    console.log('RadiusX', event);
+  }
+
+  centerChange(m: marker, $event) {
+
+    console.log('eventCenterChange', $event);
+  }
+
+ async onSubmit(lat, lng, rad, search?): Promise<void> {
+    lat = lat.trim();
+    lng = lng.trim();
+    rad = rad.trim();
+    search = search.trim();
+   // console.log('object', {lat, lng, rad, search});
+    await this.tweetService.sendGeo({lat, lng, rad, search} as Geo);
+    // this.tweetService.saveTweets({lat, lng, rad, search} as Geo);
+    this.getTweets();
+  }
+  getTweets(): void {
+    this.tweetService.getTweets()
+      .subscribe(data => {
+        this.tweets = data.slice(1, 10);
+        return this.tweets;
+      });
+  }
+
+  onClear() {
+    this.tweets = null;
+  }
+}
+
+// just an interface for type safety.
+// tslint:disable-next-line:class-name
+interface marker {
+  lat: number;
+  lng: number;
+  radius: number;
+  label?: string;
+  draggable: boolean;
+  circleDraggable: boolean;
 }

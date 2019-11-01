@@ -1,1 +1,50 @@
-<p>admin works!</p>
+<div class="container">
+  <h1>Google Maps</h1>
+  <div class="form group">
+    <input #Lat type="text" [(ngModel)]="lat" class="form-control">
+    <input #Lng type="text" [(ngModel)]="lng" class="form-control">
+    <input #Radius type="text" [(ngModel)]="radius" class="form-control">
+    <input #Keyword placeholder="enter keyword" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" >
+  </div>
+  <div class="container-for-map">
+    <agm-map
+      [latitude]="lat"
+      [longitude]="lng"
+      [zoom]="zoom"
+      [disableDefaultUI]="false"
+      [zoomControl]="false"
+      (mapClick)="mapClicked($event)">
+      <agm-marker
+        *ngFor="let m of markers; let i = index"
+        (markerClick)="clickedMarker(m.label, i)"
+        [latitude]="m.lat"
+        [longitude]="m.lng"
+        [label]="m.label"
+        [markerDraggable]="m.draggable"
+        (dragEnd)="markerDragEnd(m, $event)">
+        <agm-info-window>
+          <strong>InfoWindow content</strong>
+        </agm-info-window>
+        <agm-circle [latitude]="m.lat" [longitude]="m.lng"
+                    (centerChange)="centerChange(m, $event)"
+                    [radius]="m.radius"
+                    [fillColor]="'red'"
+                    [circleDraggable]="false"
+                    [editable]="true"
+                    (radiusChange)="radiusChange($event)">
+        </agm-circle>
+      </agm-marker>
+    </agm-map>
+    <button type="button" class="btn btn-success" (click)="onSubmit(Lat.value, Lng.value, Radius.value, Keyword.value)">Save</button>
+    <button type="button" class="btn btn-danger" (click)="onClear()">Clear</button>
+  </div>
+  <h3>Tweets</h3>
+  <div class="card" *ngIf="tweets !== undefined">
+    <ng-container *ngFor="let tweet of tweets">
+      <h4>{{tweet.name}}</h4>
+      <img src="{{tweet.image}}" alt="" style="max-width: 50px">
+      <h6>Text: {{tweet.text}}</h6>
+      <h6>Location: {{tweet.location}}</h6>
+    </ng-container>
+  </div>
+</div>
