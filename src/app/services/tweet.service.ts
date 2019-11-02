@@ -12,23 +12,27 @@ import {Geo} from '../model/geo';
 export class TweetService {
   private userUrl = environment.apiUrl;
   tweets: Tweet[];
-  constructor(private _http: ApiService) { }
+
+  constructor(private _http: ApiService) {
+  }
 
   getTweet(): Observable<Tweet[]> {
-    return  this._http.get(`${this.userUrl}/admin/tweets`, this.tweets);
+    return this._http.get(`${this.userUrl}/admin/tweets`, this.tweets);
   }
-  async sendTweets(tweet: Tweet ): Promise<void> {
+
+  async sendTweets(tweet: Tweet): Promise<void> {
     await this._http.post(`${this.userUrl}/admin/tweets`, tweet).subscribe();
   }
- async sendGeo(geo: Geo ): Promise<void> {
+
+  async sendGeo(geo: Geo): Promise<void> {
     await this._http.post(`${this.userUrl}/admin/geo`, geo).subscribe();
   }
 
   async getTweets(geo: Geo): Promise<Tweet> {
-    return new Promise((resolve, reject ) => {
-     this._http.post(`${this.userUrl}/admin/save`, geo).subscribe((tweet) => {
-       resolve(tweet);
+    return new Promise((resolve, reject) => {
+      this._http.post(`${this.userUrl}/admin/save`, geo).subscribe((tweet) => {
+        resolve(tweet);
+      });
     });
-  });
-}
+  }
 }
