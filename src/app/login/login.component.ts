@@ -31,8 +31,12 @@ export class LoginComponent implements OnInit {
      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  onSubmit(username: string, password: string): void {
-       this.authService.login({username, password} as User)
+  onSubmit(user: string, pass: string): void {
+    let username;
+    username = user.toLowerCase().trim();
+    let password;
+    password = pass.trim();
+    this.authService.login({username, password} as User)
          .pipe(first())
          .subscribe(
            data => {

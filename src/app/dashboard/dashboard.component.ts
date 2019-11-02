@@ -8,17 +8,17 @@ import {TweetService} from '../services/tweet.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  tweets: Array<Tweet> = [];
+  tweets: Tweet[];
   constructor(private tweetService: TweetService) { }
   getTweets(): void {
-    this.tweetService.getTweets()
+    this.tweetService.getTweet()
       .subscribe(data => {
         this.tweets = data.slice(1, 10);
         return this.tweets;
       });
   }
   ngOnInit() {
-    this.getTweets();
+   this.getTweets();
   }
 
 

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { UserService } from '../user/user.service';
 import { User } from '../../model/user';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
   selector: 'app-create-account',
@@ -11,7 +13,12 @@ import { User } from '../../model/user';
 export class CreateAccountComponent implements OnInit {
   users: Array<User> = [];
   checkoutForm;
-  constructor(private userService: UserService, private formBuilder: FormBuilder, ) {
+  returnUrl: string;
+  constructor(private userService: UserService, private formBuilder: FormBuilder,
+              private route: ActivatedRoute,
+              private router: Router,
+              private authService: AuthService,
+              ) {
     this.checkoutForm = this.formBuilder.group({
       username: '',
       password: ''
@@ -19,21 +26,23 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'login';
   }
 
-  addUser(data) {
+  onSubmit(user: string, pass: string) {
     let username;
-    username = data.username.trim();
+    username = user.trim().toLowerCase();
     let password;
-    password = data.password.trim();
-    if (!data.username) {
+    password = pass.trim();
+    if (!username && !password) {
       return;
     }
     console.log('data', username, password);
     this.userService.addUser({username, password} as User)
-      .subscribe(user => {
-      if (user) {
-        this.users.push(user);
+      .subscribe(data => {
+      if (data) {
+        this.router.navigate([this.returnUrl]);
+        this.users.push(data);
       }
     });
   }
