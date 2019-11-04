@@ -79,15 +79,12 @@ export class AdminComponent implements OnInit {
     lng = lng.trim();
     rad = rad.trim();
     search = search.trim();
-    console.log('object', {lat, lng, rad, search});
     await this.tweetService.sendGeo({lat, lng, rad, search} as Geo);
     await this.tweetService.sendTweets(this.tweets as Tweet);
   }
 
   onClear() {
-    console.log('clear', this.tweets);
     this.tweets = null;
-
   }
 
  async onScan(lat: string, lng: string, rad: string, search?: string): Promise<Tweet> {
@@ -96,9 +93,7 @@ export class AdminComponent implements OnInit {
     rad = rad.trim();
     search = search.trim();
     if (!lat) { return; }
-    console.log('object', {lat, lng, rad, search});
     await this.tweetService.getTweets({lat, lng, rad, search} as Geo).then(data => {
-      console.log(data);
       this.tweets = data;
       });
     return this.tweets;

@@ -13,7 +13,7 @@ export class DashboardComponent implements OnInit {
   getTweets(): void {
     this.tweetService.getTweet()
       .subscribe(data => {
-        this.tweets = data.slice(1, 10);
+        this.tweets = data.slice(10);
         return this.tweets;
       });
   }

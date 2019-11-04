@@ -24,7 +24,6 @@ export class AuthService {
       .pipe(map(data => {
         localStorage.setItem('currentUser', JSON.stringify(data));
         this.currentUserSubject.next(data);
-        console.log('login', data);
         return data;
       }));
   }
@@ -32,7 +31,7 @@ export class AuthService {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }
-  getCurrentUser() {
-   return this.http.getProfileUsers();
+  getCurrentUser(): Observable<User> {
+    return this.http.getProfileUsers();
   }
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { User } from './model/user';
 import { Router } from '@angular/router';
 import { AuthService } from './auth/auth.service';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +10,8 @@ import { AuthService } from './auth/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
   currentUser: User;
-  title = 'GeoTweets';
+  user: User;
 
   constructor(
     private router: Router,

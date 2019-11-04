@@ -26,7 +26,7 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'login';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/login';
   }
 
   onSubmit(user: string, pass: string) {
@@ -41,8 +41,8 @@ export class CreateAccountComponent implements OnInit {
     this.userService.addUser({username, password} as User)
       .subscribe(data => {
       if (data) {
-        this.router.navigate([this.returnUrl]);
         this.users.push(data);
+        this.router.navigate([this.returnUrl]);
       }
     });
   }
